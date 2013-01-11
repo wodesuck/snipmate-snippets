@@ -1,3 +1,7 @@
+snippet {}
+	{
+		${1}
+	}
 ## Main
 # main
 snippet main
@@ -17,7 +21,7 @@ snippet mainn
 ## Preprocessor 
 # #include <...>
 snippet inc
-	#include <${1:stdio}.h>${2}
+	#include <${1:stdio.h}>${2}
 # #include "..."
 snippet Inc
 	#include "${1:`Filename("$1.h")`}"${2}
@@ -93,14 +97,10 @@ snippet case
 ## Loops
 # for
 snippet for
-	for (${2:i} = 0; $2 < ${1:count}; $2${3:++}) {
-		${4:/* code */}
-	}${5}
+	for (${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4:/* code */}
 # for (custom)
 snippet forr
-	for (${1:i} = ${2:0}; ${3:$1 < 10}; $1${4:++}) {
-		${5:/* code */}
-	}${6}
+	for (${1:i} = ${2:0}; ${3:$1 < 10}; ${4:++$1}) ${5:/* code */}
 # while
 snippet wh
 	while (${1:/* condition */}) {
@@ -207,11 +207,6 @@ snippet getopt
 			${4}
 		}
 	}
-##
-## Miscellaneous
-# This is kind of convenient
-snippet .
-	[${1}]${2}
 # GPL
 snippet gpl
 	/*

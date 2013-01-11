@@ -79,7 +79,8 @@ snippet cl
 	};
 # member function implementation
 snippet mfun
-	${4:void} ${1:`Filename('$1', 'ClassName')`}::${2:memberFunction}(${3}) {
+	${4:void} ${1:`Filename('$1', 'ClassName')`}::${2:memberFunction}(${3})
+	{
 		${5:/* code */}
 	}
 # namespace
@@ -87,38 +88,32 @@ snippet ns
 	namespace ${1:`Filename('', 'my')`} {
 		${2}
 	} /* namespace $1 */
+# using
+snippet us
+	using ${1:std}::${2:class_name};
 ##
 ## Input/Output
 # std::cout
 snippet cout
-	std::cout << ${1} << std::endl;${2}
+	cout << ${1} << std::endl;${2}
 # std::cin
 snippet cin
-	std::cin >> ${1};${2}
+	cin >> ${1};${2}
 ##
 ## Iteration
 # for i 
 snippet fori
-	for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) {
-		${4:/* code */}
-	}${5}
-
+	for (int ${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4:/* code */}
 # foreach
 snippet fore
-	for (${1:auto} ${2:i} : ${3:container}) {
-		${4:/* code */}
-	}${5}
+	for (${1:auto} ${2:i} : ${3:container}) ${4:/* code */}
 # iterator
 snippet iter
-	for (${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4) {
-		${6}
-	}${7}
+	for (${1:vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4) ${6}
 
 # auto iterator
 snippet itera
-	for (auto ${1:i} = $1.begin(); $1 != $1.end(); ++$1) {
-		${2:std::cout << *$1 << std::endl;}
-	}${3}
+	for (auto ${1:i} = ${2:container}.begin(); $1 != $2.end(); ++$1) ${6}
 ##
 ## Lambdas
 # lamda (one line)
@@ -129,3 +124,14 @@ snippet lld
 	[${1}](${2}){
 		${3:/* code */}
 	}${4}
+# template
+snippet tmp
+	template <class ${1:T}${2}>${3}
+# functor
+snippet functor
+	struct ${1:functor_name} {
+		${2:void} operator()(${3}) const
+		{
+			${4: return}
+		}
+	};${6}
