@@ -2,6 +2,10 @@ snippet {}
 	{
 		${1}
 	}
+snippet {};
+	{
+		${1}
+	};
 ## Main
 # main
 snippet main
@@ -46,7 +50,6 @@ snippet #if
 # header include guard
 snippet once
 	#ifndef ${1:`toupper(Filename('$1_H', 'UNTITLED_H'))`}
-
 	#define $1
 
 	${2}
@@ -73,21 +76,12 @@ snippet elif
 snippet t
 	${1:/* condition */} ? ${2:a} : ${3:b}
 # switch
-snippet switch
+snippet sw
 	switch (${1:/* variable */}) {
-		case ${2:/* variable case */}:
-			${3}
-			${4:break;}${5}
-		default:
-			${6}
+	case ${2:/* variable case */}:
+		${3}
+		${4:break;}${5}
 	}${7}
-# switch without default
-snippet switchndef
-	switch (${1:/* variable */}) {
-		case ${2:/* variable case */}:
-			${3}
-			${4:break;}${5}
-	}${6}
 # case
 snippet case
 	case ${1:/* variable case */}:
@@ -97,10 +91,16 @@ snippet case
 ## Loops
 # for
 snippet for
-	for (${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4:/* code */}
+	for (${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4}
 # for (custom)
 snippet forr
-	for (${1:i} = ${2:0}; ${3:$1 < 10}; ${4:++$1}) ${5:/* code */}
+	for (${1:i} = ${2:0}; ${3:$1 < 10}; ${4:++$1}) ${5}
+# for with initial declaration
+snippet fori
+	for (int ${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4}
+# for with initial declaration (custom)
+snippet forii
+	for (${1:int} ${2:i} = ${3:0}; ${4:$2 < 10}; ${5:++$2}) ${6}
 # while
 snippet wh
 	while (${1:/* condition */}) {
@@ -144,6 +144,11 @@ snippet tde
 	} ${2:foo};${3}
 ##
 ## Input/Output
+# scanf
+snippet sc
+	scanf("${1:%s}", ${2});${3}
+snippet fsc
+	fscanf(${1:fin}, "${2:%s}", ${3});${4}
 # printf
 snippet pr
 	printf("${1:%s}\n"${2});${3}
@@ -153,10 +158,8 @@ snippet fpr
 # getopt
 snippet getopt
 	int choice;
-	while (1)
-	{
-		static struct option long_options[] =
-		{
+	for (;;) {
+		static struct option long_options[] = {
 			/* Use flags like so:
 			{"verbose",	no_argument,	&verbose_flag, 'V'}*/
 			/* Argument styles: no_argument, required_argument, optional_argument */
@@ -166,46 +169,33 @@ snippet getopt
 			{0,0,0,0}
 		};
 
-		int option_index = 0;
-
 		/* Argument parameters:
 			no_argument: " "
 			required_argument: ":"
 			optional_argument: "::" */
 
-		choice = getopt_long( argc, argv, "vh",
-					long_options, &option_index);
-
-		if (choice == -1)
+		int option_index = 0;
+		choice = getopt_long( argc, argv, "vh", long_options, &option_index);
+		if (choice == -1) break;
+		switch (choice) {
+		case 'v':
+			${2}
 			break;
-
-		switch( choice )
-		{
-			case 'v':
-				${2}
-				break;
-
-			case 'h':
-				${3}
-				break;
-
-			case '?':
-				/* getopt_long will have already printed an error */
-				break;
-
-			default:
-				/* Not sure how to get here... */
-				return EXIT_FAILURE;
+		case 'h':
+			${3}
+			break;
+		case '?':
+			/* getopt_long will have already printed an error */
+			break;
+		default:
+			/* Not sure how to get here... */
+			return EXIT_FAILURE;
 		}
 	}
 
 	/* Deal with non-option arguments here */
-	if ( optind < argc )
-	{
-		while ( optind < argc )
-		{
-			${4}
-		}
+	while ( optind < argc ) {
+		${4}
 	}
 # GPL
 snippet gpl

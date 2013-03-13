@@ -68,20 +68,43 @@ snippet mu
 ## Class
 # class
 snippet cl
-	class ${1:`Filename('$1', 'name')`} 
-	{
+	class ${1:`Filename('$1', 'name')`} {
 	public:
-		$1(${2});
+		$1();
 		~$1();
+		${3:/* interface */}
 
 	private:
-		${3:/* data */}
+		${2:/* data */}
+	};
+# derived class
+snippet Cl
+	class ${1:`Filename('$1', 'name')`} : ${2:public} ${3:base} {
+	public:
+		$1();
+		~$1();
+		${3:/* interface */}
+	
+	private:
+		${4:/* data */}
 	};
 # member function implementation
 snippet mfun
 	${4:void} ${1:`Filename('$1', 'ClassName')`}::${2:memberFunction}(${3})
 	{
 		${5:/* code */}
+	}
+# constractor implementation
+snippet cfun
+	${1:`Filename('$1', 'ClassName')`}::$1(${2})
+	{
+		${3:/* code */}
+	}
+# constractor implementation
+snippet dfun
+	${1:`Filename('$1', 'ClassName')`}::~$1()
+	{
+		${2:/* code */}
 	}
 # namespace
 snippet ns
@@ -91,22 +114,25 @@ snippet ns
 # using
 snippet us
 	using ${1:std}::${2:class_name};${3}
+# using namespcae
+snippet usns
+	using namespace ${1:std};${2}
 ##
 ## Input/Output
 # std::cout
 snippet cout
-	cout << ${1} << std::endl;${2}
+	std::cout << ${1} << std::endl;${2}
 # std::cin
 snippet cin
-	cin >> ${1};${2}
+	std::cin >> ${1};${2}
+# std::cerr
+snippet cerr
+	std::cerr << ${1} << std::endl;${2}
 ##
 ## Iteration
-# for i 
-snippet fori
-	for (int ${1:i} = 0; $1 < ${2:count}; ${3:++$1}) ${4:/* code */}
 # foreach
 snippet fore
-	for (${1:auto} ${2:i} : ${3:container}) ${4:/* code */}
+	for (${1:auto} ${2:i} : ${3:container}) ${4}
 # iterator
 snippet iter
 	for (${1:vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4) ${6}
